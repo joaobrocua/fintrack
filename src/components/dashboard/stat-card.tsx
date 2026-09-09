@@ -1,3 +1,5 @@
+"use client";
+
 import { CountUp } from "@/components/ui/count-up";
 import { formatCurrency } from "@/lib/money";
 import { cn } from "@/lib/utils";
