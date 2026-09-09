@@ -80,7 +80,7 @@ export default function LandingPage() {
         {/* Hero */}
         <section className="mx-auto w-full max-w-5xl px-5 pt-20 pb-16 sm:pt-28">
           <p
-            className="reveal font-serif text-xs tracking-[0.22em] text-muted-foreground uppercase"
+            className="reveal text-[0.72rem] font-medium tracking-[0.2em] text-muted-foreground uppercase"
             style={d(0)}
           >
             Controle financeiro pessoal

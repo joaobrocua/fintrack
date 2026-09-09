@@ -8,7 +8,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex items-baseline gap-2 font-serif text-[1.05rem] font-medium tracking-tight",
+        "inline-flex items-baseline gap-2 font-serif text-[1.2rem] tracking-tight",
         className,
       )}
     >
