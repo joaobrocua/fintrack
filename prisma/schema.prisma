@@ -1,0 +1,235 @@
+// FinTrack — Prisma schema
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Auth.js (NextAuth v5) models
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts          Account[]
+  sessions          Session[]
+  financialAccounts FinancialAccount[]
+  categories        Category[]
+  transactions      Transaction[]
+  categoryRules     CategoryRule[]
+  budgets           Budget[]
+  importBatches     ImportBatch[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ---------------------------------------------------------------------------
+// Domain models
+// ---------------------------------------------------------------------------
+
+enum AccountType {
+  CHECKING
+  SAVINGS
+  CREDIT_CARD
+  CASH
+  INVESTMENT
+}
+
+enum CategoryKind {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionKind {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+enum RuleMatchType {
+  CONTAINS
+  STARTS_WITH
+  ENDS_WITH
+  EQUALS
+  REGEX
+}
+
+/// A bank account, wallet or credit card owned by the user.
+model FinancialAccount {
+  id             String      @id @default(cuid())
+  userId         String
+  name           String
+  type           AccountType @default(CHECKING)
+  institution    String?
+  /// Opening balance in cents.
+  initialBalance Int         @default(0)
+  currency       String      @default("BRL")
+  color          String      @default("#6366f1")
+  archived       Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  importBatches ImportBatch[]
+
+  @@index([userId])
+}
+
+/// A user-defined bucket for classifying transactions.
+model Category {
+  id        String       @id @default(cuid())
+  userId    String
+  name      String
+  kind      CategoryKind @default(EXPENSE)
+  color     String       @default("#64748b")
+  icon      String       @default("tag")
+  parentId  String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent       Category?      @relation("CategoryChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children     Category[]     @relation("CategoryChildren")
+  transactions Transaction[]
+  rules        CategoryRule[]
+  budgets      Budget[]
+
+  @@unique([userId, name, kind])
+  @@index([userId])
+}
+
+/// A single money movement. `amountCents` is always positive; direction is `kind`.
+model Transaction {
+  id                 String          @id @default(cuid())
+  userId             String
+  financialAccountId String
+  date               DateTime
+  description        String
+  amountCents        Int
+  kind               TransactionKind
+  categoryId         String?
+  notes              String?
+  /// Stable hash of the source row, used to de-duplicate CSV imports.
+  externalHash       String?
+  importBatchId      String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  financialAccount FinancialAccount @relation(fields: [financialAccountId], references: [id], onDelete: Cascade)
+  category         Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  importBatch      ImportBatch?     @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+
+  @@unique([financialAccountId, externalHash])
+  @@index([userId, date])
+  @@index([financialAccountId, date])
+  @@index([categoryId])
+}
+
+/// Auto-categorization rule applied during import.
+model CategoryRule {
+  id         String        @id @default(cuid())
+  userId     String
+  matchType  RuleMatchType @default(CONTAINS)
+  pattern    String
+  categoryId String
+  priority   Int           @default(0)
+  enabled    Boolean       @default(true)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// Monthly spending limit for a category.
+model Budget {
+  id         String   @id @default(cuid())
+  userId     String
+  categoryId String
+  /// First day of the target month (UTC midnight).
+  month      DateTime
+  limitCents Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId, month])
+  @@index([userId, month])
+}
+
+/// One CSV import run, kept for auditing and undo.
+model ImportBatch {
+  id                 String   @id @default(cuid())
+  userId             String
+  financialAccountId String
+  filename           String
+  /// Which CSV column maps to which field.
+  columnMapping      Json
+  rowCount           Int      @default(0)
+  importedCount      Int      @default(0)
+  skippedCount       Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  financialAccount FinancialAccount @relation(fields: [financialAccountId], references: [id], onDelete: Cascade)
+  transactions     Transaction[]
+
+  @@index([userId])
+}

@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FinTrack
 
-## Getting Started
+SaaS de finanças pessoais: importe o extrato do banco em CSV, categorize os
+gastos automaticamente por regras e acompanhe tudo num dashboard com
+orçamentos mensais.
 
-First, run the development server:
+> Projeto de portfólio full-stack. Foco em modelagem de dados, processamento de
+> arquivo, regra de negócio e visualização.
+
+## Stack
+
+| Camada        | Tecnologia                                             |
+| ------------- | ------------------------------------------------------ |
+| Framework     | Next.js 16 (App Router, Server Actions) + TypeScript   |
+| UI            | Tailwind CSS v4, componentes próprios sobre Radix UI   |
+| Gráficos      | Recharts                                               |
+| Autenticação  | Auth.js (NextAuth v5) — credenciais, OAuth depois      |
+| Banco         | PostgreSQL (Neon) + Prisma ORM                         |
+| Validação     | Zod (compartilhada client/server)                      |
+| CSV           | Papa Parse                                             |
+| Testes        | Vitest + Testing Library                               |
+| Deploy / CI   | Vercel + Neon · GitHub Actions                         |
+
+## Rodando localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Dependências
+npm install
+
+# 2. Variáveis de ambiente
+cp .env.example .env   # e preencha DATABASE_URL, DIRECT_URL, AUTH_SECRET
+
+# 3. Banco
+npm run db:migrate     # aplica as migrations
+npm run db:seed        # (opcional) dados de demonstração
+
+# 4. Dev
+npm run dev            # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script              | O que faz                              |
+| ------------------- | -------------------------------------- |
+| `npm run dev`       | Servidor de desenvolvimento           |
+| `npm run build`     | `prisma generate` + build de produção |
+| `npm run test`      | Testes unitários (Vitest)             |
+| `npm run typecheck` | `tsc --noEmit`                        |
+| `npm run lint`      | ESLint                                |
+| `npm run format`    | Prettier                             |
+| `npm run db:migrate`| Cria/aplica migration de dev          |
+| `npm run db:studio` | Prisma Studio                         |
+| `npm run db:seed`   | Popula dados de demonstração          |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Modelo de dados
 
-## Learn More
+`User` · `FinancialAccount` · `Category` · `Transaction` · `CategoryRule` ·
+`Budget` · `ImportBatch` — mais os modelos do Auth.js (`Account`, `Session`,
+`VerificationToken`). Valores monetários são sempre inteiros em centavos.
+Ver [`prisma/schema.prisma`](prisma/schema.prisma).
 
-To learn more about Next.js, take a look at the following resources:
+## Status
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Em construção — ver os milestones no histórico do projeto.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [x] M0 — Scaffold (Next.js, Tailwind, Prisma, Neon, landing page)
+- [ ] M1 — Autenticação
+- [ ] M2 — Contas + Transações
+- [ ] M3 — Categorias + Regras
+- [ ] M4 — Importação CSV
+- [ ] M5 — Dashboard
+- [ ] M6 — Orçamentos
+- [ ] M7 — Exportação / relatórios
+- [ ] M8 — Testes, CI, deploy
+- [ ] M9 — Polish
