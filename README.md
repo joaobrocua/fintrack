@@ -1,11 +1,32 @@
 # FinTrack
 
-SaaS de finanças pessoais: importe o extrato do banco em CSV, categorize os
-gastos automaticamente por regras e acompanhe tudo num dashboard com
-orçamentos mensais.
+[![CI](https://github.com/joaobrocua/fintrack/actions/workflows/ci.yml/badge.svg)](https://github.com/joaobrocua/fintrack/actions/workflows/ci.yml)
+
+SaaS de finanças pessoais: importe o extrato do banco em CSV, deixe as regras
+categorizarem os gastos e acompanhe tudo num dashboard com orçamentos mensais.
+
+**Demo:** _(adicionar URL após o deploy)_ · login `demo@fintrack.app` / `demo12345`
 
 > Projeto de portfólio full-stack. Foco em modelagem de dados, processamento de
 > arquivo, regra de negócio e visualização.
+
+## Funcionalidades
+
+- **Autenticação** própria (Auth.js) — cada registro isolado por usuário; toda
+  Server Action e Route Handler revalida a sessão e o dono do recurso.
+- **Contas** (corrente, poupança, cartão, dinheiro) com saldo calculado.
+- **Transações** com lista filtrável e paginada 100% via URL (período, conta,
+  categoria, tipo, busca) e resumo do filtro.
+- **Categorias** com ícone e cor + **motor de regras** de auto-categorização
+  (`contém`, `regex`, prioridade) — puro e testado.
+- **Importação de CSV**: mapeamento de colunas, detecção de duplicatas por hash,
+  aplicação das regras e desfazer por lote.
+- **Dashboard**: receita × despesa por mês, evolução do saldo, gastos por
+  categoria, maiores despesas, patrimônio.
+- **Orçamentos** mensais por categoria com barra de progresso e alerta ao
+  estourar; "copiar do mês anterior".
+- **Exportação**: CSV das transações (respeitando os filtros) e relatório mensal
+  imprimível em PDF.
 
 ## Stack
 
@@ -13,10 +34,10 @@ orçamentos mensais.
 | ------------- | ------------------------------------------------------ |
 | Framework     | Next.js 16 (App Router, Server Actions) + TypeScript   |
 | UI            | Tailwind CSS v4, componentes próprios sobre Radix UI   |
-| Gráficos      | Recharts                                               |
-| Autenticação  | Auth.js (NextAuth v5) — credenciais, OAuth depois      |
+| Gráficos      | Recharts (paleta validada para daltonismo/contraste)   |
+| Autenticação  | Auth.js (NextAuth v5) — credenciais + bcrypt           |
 | Banco         | PostgreSQL (Neon) + Prisma ORM                         |
-| Validação     | Zod (compartilhada client/server)                      |
+| Validação     | Zod (compartilhada client/server)                     |
 | CSV           | Papa Parse                                             |
 | Testes        | Vitest + Testing Library                               |
 | Deploy / CI   | Vercel + Neon · GitHub Actions                         |
@@ -24,18 +45,11 @@ orçamentos mensais.
 ## Rodando localmente
 
 ```bash
-# 1. Dependências
 npm install
-
-# 2. Variáveis de ambiente
-cp .env.example .env   # e preencha DATABASE_URL, DIRECT_URL, AUTH_SECRET
-
-# 3. Banco
-npm run db:migrate     # aplica as migrations
-npm run db:seed        # (opcional) dados de demonstração
-
-# 4. Dev
-npm run dev            # http://localhost:3000
+cp .env.example .env          # preencha DATABASE_URL, DIRECT_URL, AUTH_SECRET
+npm run db:migrate            # aplica as migrations
+npm run db:seed               # dados de demonstração (demo@fintrack.app / demo12345)
+npm run dev                   # http://localhost:3000
 ```
 
 ## Scripts
@@ -50,18 +64,30 @@ npm run dev            # http://localhost:3000
 | `npm run format`    | Prettier                             |
 | `npm run db:migrate`| Cria/aplica migration de dev          |
 | `npm run db:studio` | Prisma Studio                         |
-| `npm run db:seed`   | Popula dados de demonstração          |
+| `npm run db:seed`   | Popula a conta de demonstração        |
 
-## Modelo de dados
+## Arquitetura
 
-`User` · `FinancialAccount` · `Category` · `Transaction` · `CategoryRule` ·
-`Budget` · `ImportBatch` — mais os modelos do Auth.js (`Account`, `Session`,
-`VerificationToken`). Valores monetários são sempre inteiros em centavos.
+- **Dados sempre em centavos** (inteiro); a ponte cents ↔ decimal ↔ string vive
+  só em `src/lib/money.ts`.
+- **Data Access Layer** (`src/lib/dal.ts`): `requireUser()` é a checagem real de
+  autenticação/dono, usada em toda página e action protegida. `src/proxy.ts` faz
+  só o redirect otimista.
+- **Queries** em `src/server/queries/`, **mutations** em `src/server/actions/`,
+  cada uma com escopo por `userId`.
+- **Lógica pura testável** isolada: `rule-engine.ts`, `csv.ts`, `money.ts`,
+  `month.ts`, `csv-export.ts`.
+
+Modelo: `User` · `FinancialAccount` · `Category` · `Transaction` ·
+`CategoryRule` · `Budget` · `ImportBatch` + modelos do Auth.js.
 Ver [`prisma/schema.prisma`](prisma/schema.prisma).
 
-## Status
+## Deploy
 
-Em construção — ver os milestones no histórico do projeto.
+Ver [`DEPLOY.md`](DEPLOY.md) — Vercel + branch de produção no Neon; migrations
+aplicadas automaticamente no build (`vercel-build`).
+
+## Milestones
 
 - [x] M0 — Scaffold (Next.js, Tailwind, Prisma, Neon, landing page)
 - [x] M1 — Autenticação
@@ -72,4 +98,4 @@ Em construção — ver os milestones no histórico do projeto.
 - [x] M6 — Orçamentos (limite mensal por categoria, progresso, alerta, copiar mês)
 - [x] M7 — Exportação CSV + relatório mensal imprimível (PDF via print)
 - [ ] M8 — Testes, CI, deploy
-- [ ] M9 — Polish
+- [ ] M9 — Polish (empty/loading/error states, responsivo, acessibilidade)
