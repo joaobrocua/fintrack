@@ -68,7 +68,7 @@ Em construção — ver os milestones no histórico do projeto.
 - [x] M2 — Contas + Transações (CRUD, saldo calculado, filtros, paginação)
 - [x] M3 — Categorias + Regras (motor de auto-categorização)
 - [x] M4 — Importação CSV (mapeamento de colunas, dedup, auto-categoria, desfazer)
-- [ ] M5 — Dashboard
+- [x] M5 — Dashboard (KPIs, fluxo mensal, evolução de saldo, gastos por categoria)
 - [ ] M6 — Orçamentos
 - [ ] M7 — Exportação / relatórios
 - [ ] M8 — Testes, CI, deploy
