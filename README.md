@@ -70,6 +70,6 @@ Em construção — ver os milestones no histórico do projeto.
 - [x] M4 — Importação CSV (mapeamento de colunas, dedup, auto-categoria, desfazer)
 - [x] M5 — Dashboard (KPIs, fluxo mensal, evolução de saldo, gastos por categoria)
 - [x] M6 — Orçamentos (limite mensal por categoria, progresso, alerta, copiar mês)
-- [ ] M7 — Exportação / relatórios
+- [x] M7 — Exportação CSV + relatório mensal imprimível (PDF via print)
 - [ ] M8 — Testes, CI, deploy
 - [ ] M9 — Polish

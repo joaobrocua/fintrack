@@ -138,3 +138,20 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+@media print {
+  /* Print the monthly report on white, regardless of the app theme. */
+  :root,
+  :root[data-theme="dark"],
+  :root:not([data-theme="light"]) {
+    --background: #ffffff;
+    --foreground: #111111;
+    --card: #ffffff;
+    --card-foreground: #111111;
+    --muted-foreground: #555555;
+    --border: #cccccc;
+  }
+  body {
+    background: #fff;
+  }
+}

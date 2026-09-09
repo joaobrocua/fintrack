@@ -13,6 +13,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/app-shell/page-header";
+import { ExportButton } from "@/components/transactions/export-button";
 import { TransactionFilters } from "@/components/transactions/transaction-filters";
 import {
   TransactionFormDialog,
@@ -133,9 +134,12 @@ export function TransactionsView({ data, accounts, categories }: Props) {
         title="Transações"
         description="Todas as receitas e despesas das suas contas."
         action={
-          <Button onClick={openCreate} disabled={noAccounts}>
-            <Plus /> Nova transação
-          </Button>
+          <div className="flex gap-2">
+            <ExportButton disabled={noAccounts || data.total === 0} />
+            <Button onClick={openCreate} disabled={noAccounts}>
+              <Plus /> Nova transação
+            </Button>
+          </div>
         }
       />
 
