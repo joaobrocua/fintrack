@@ -9,7 +9,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-1">
+    <nav className="flex flex-col gap-0.5">
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
         const active = pathname === href || pathname.startsWith(`${href}/`);
         return (
@@ -19,13 +19,24 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              "group relative flex items-center gap-3 rounded-md py-2 pr-3 pl-4 text-sm transition-colors",
               active
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
+                ? "font-medium text-foreground"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
             )}
           >
-            <Icon className="size-4 shrink-0" />
+            <span
+              className={cn(
+                "absolute top-1/2 left-0 h-4 w-[2px] -translate-y-1/2 rounded-full bg-primary transition-opacity",
+                active ? "opacity-100" : "opacity-0",
+              )}
+            />
+            <Icon
+              className={cn(
+                "size-4 shrink-0 transition-colors",
+                active ? "text-primary" : "text-muted-foreground/70",
+              )}
+            />
             {label}
           </Link>
         );

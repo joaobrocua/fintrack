@@ -22,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { CountUp } from "@/components/ui/count-up";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -68,20 +69,23 @@ function SummaryCard({
   tone: "income" | "expense" | "net";
 }) {
   return (
-    <Card>
-      <CardContent className="p-4">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p
-          className={cn(
-            "mt-1 text-xl font-semibold tabular-nums",
-            tone === "income" && "text-success",
-            tone === "expense" && "text-destructive",
-          )}
-        >
-          {formatCurrency(value, { signed: tone !== "expense" })}
-        </p>
-      </CardContent>
-    </Card>
+    <div className="bg-card p-4">
+      <p className="text-[0.7rem] tracking-[0.13em] text-muted-foreground uppercase">
+        {label}
+      </p>
+      <CountUp
+        value={value}
+        durationMs={700}
+        format={(n) =>
+          formatCurrency(Math.round(n), { signed: tone !== "expense" })
+        }
+        className={cn(
+          "mt-1.5 block font-serif text-xl leading-none tracking-tight tabular-nums",
+          tone === "income" && "text-success",
+          tone === "expense" && "text-destructive",
+        )}
+      />
+    </div>
   );
 }
 
@@ -154,7 +158,7 @@ export function TransactionsView({ data, accounts, categories }: Props) {
         </Card>
       ) : (
         <>
-          <div className="mb-4 grid gap-3 sm:grid-cols-3">
+          <div className="mb-4 grid gap-px overflow-hidden rounded-lg border bg-border sm:grid-cols-3">
             <SummaryCard
               label="Receitas (filtro atual)"
               value={data.summary.income}

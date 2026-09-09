@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BalanceTrendChart } from "@/components/dashboard/balance-trend-chart";
@@ -59,56 +60,88 @@ export default async function DashboardPage({
 
   const firstName = user.name?.split(" ")[0];
 
+  const stats = [
+    { label: "Receitas", value: data.totals.income, tone: "income" as const },
+    { label: "Despesas", value: data.totals.expense, tone: "expense" as const },
+    {
+      label: "Resultado do período",
+      value: data.totals.net,
+      tone: (data.totals.net >= 0 ? "income" : "expense") as
+        "income" | "expense",
+    },
+    {
+      label: "Patrimônio",
+      value: data.netWorth,
+      tone: "neutral" as const,
+      hint: "Todas as contas, saldo atual",
+    },
+  ];
+
+  const charts = [
+    <ChartCard
+      key="flow"
+      title="Receitas × Despesas"
+      subtitle="Por mês, no período selecionado"
+    >
+      <MonthlyFlowChart data={data.monthlyFlow} />
+    </ChartCard>,
+    <ChartCard key="trend" title="Evolução do saldo" subtitle="Saldo acumulado">
+      <BalanceTrendChart data={data.balanceTrend} />
+    </ChartCard>,
+    <ChartCard
+      key="cat"
+      title="Gastos por categoria"
+      subtitle="Despesas do período, maiores primeiro"
+    >
+      <CategorySpendChart data={data.categorySpend} />
+    </ChartCard>,
+    <ChartCard
+      key="merch"
+      title="Onde você mais gastou"
+      subtitle="Estabelecimentos com maior total"
+    >
+      <TopMerchants rows={data.topMerchants} />
+    </ChartCard>,
+    data.budgetStatus.length > 0 ? (
+      <BudgetStatusCard key="budget" rows={data.budgetStatus} />
+    ) : null,
+  ].filter(Boolean);
+
   return (
     <div className="mx-auto max-w-6xl">
       <PageHeader
         title={firstName ? `Olá, ${firstName}` : "Painel"}
-        description={`Visão de ${PERIOD_LABELS[preset].toLowerCase()}`}
+        description={`Um panorama dos seus ${PERIOD_LABELS[preset].toLowerCase()}.`}
         action={<PeriodPicker value={preset} />}
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Receitas" value={data.totals.income} tone="income" />
-        <StatCard label="Despesas" value={data.totals.expense} tone="expense" />
-        <StatCard
-          label="Resultado do período"
-          value={data.totals.net}
-          tone={data.totals.net >= 0 ? "income" : "expense"}
-        />
-        <StatCard
-          label="Patrimônio"
-          value={data.netWorth}
-          hint="Todas as contas, saldo atual"
-        />
+      <div className="grid gap-px overflow-hidden rounded-lg border bg-border sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s, i) => (
+          <div
+            key={s.label}
+            className="reveal-fast bg-card"
+            style={{ "--d": `${i * 55}ms` } as CSSProperties}
+          >
+            <StatCard
+              label={s.label}
+              value={s.value}
+              tone={s.tone}
+              hint={"hint" in s ? s.hint : undefined}
+            />
+          </div>
+        ))}
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <ChartCard
-          title="Receitas × Despesas"
-          subtitle="Por mês, no período selecionado"
-        >
-          <MonthlyFlowChart data={data.monthlyFlow} />
-        </ChartCard>
-
-        <ChartCard title="Evolução do saldo" subtitle="Saldo acumulado">
-          <BalanceTrendChart data={data.balanceTrend} />
-        </ChartCard>
-
-        <ChartCard
-          title="Gastos por categoria"
-          subtitle="Despesas do período, maiores primeiro"
-        >
-          <CategorySpendChart data={data.categorySpend} />
-        </ChartCard>
-
-        <ChartCard
-          title="Onde você mais gastou"
-          subtitle="Estabelecimentos com maior total"
-        >
-          <TopMerchants rows={data.topMerchants} />
-        </ChartCard>
-
-        <BudgetStatusCard rows={data.budgetStatus} />
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        {charts.map((c, i) => (
+          <div
+            key={i}
+            className="reveal"
+            style={{ "--d": `${140 + i * 70}ms` } as CSSProperties}
+          >
+            {c}
+          </div>
+        ))}
       </div>
     </div>
   );

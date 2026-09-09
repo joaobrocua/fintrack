@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -14,8 +14,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+// Editorial display serif — used for headings and hero figures.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 const DESCRIPTION =
   "Importe o extrato do banco, categorize gastos automaticamente e veja para onde vai o seu dinheiro.";
 
@@ -43,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider

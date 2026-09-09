@@ -13,13 +13,15 @@ export function ChartCard({
   action?: ReactNode;
 }) {
   return (
-    <Card>
+    <Card className="lift h-full">
       <CardContent className="p-5">
-        <div className="mb-4 flex items-start justify-between gap-2">
+        <div className="mb-4 flex items-start justify-between gap-2 border-b pb-3">
           <div>
-            <h3 className="text-sm font-medium">{title}</h3>
+            <h3 className="font-serif text-[1.05rem] leading-tight tracking-tight">
+              {title}
+            </h3>
             {subtitle && (
-              <p className="text-xs text-muted-foreground">{subtitle}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{subtitle}</p>
             )}
           </div>
           {action}

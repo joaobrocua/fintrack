@@ -20,12 +20,15 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       </a>
       <aside
         data-chrome
-        className="hidden w-64 shrink-0 flex-col border-r bg-card px-4 py-6 lg:flex print:hidden"
+        className="hidden w-60 shrink-0 flex-col border-r bg-background px-5 py-6 lg:flex print:hidden"
       >
-        <Link href="/dashboard">
+        <Link href="/dashboard" className="px-1">
           <Logo />
         </Link>
-        <div className="mt-8">
+        <p className="mt-9 px-1 font-serif text-[0.7rem] tracking-[0.18em] text-muted-foreground uppercase">
+          Índice
+        </p>
+        <div className="mt-3">
           <SidebarNav />
         </div>
       </aside>
@@ -33,7 +36,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       <div className="flex min-w-0 flex-1 flex-col">
         <header
           data-chrome
-          className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b bg-background/80 px-4 backdrop-blur print:hidden"
+          className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b bg-background/85 px-4 backdrop-blur-sm print:hidden"
         >
           <MobileNav />
           <div className="flex-1" />
