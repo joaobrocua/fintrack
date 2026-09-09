@@ -6,7 +6,7 @@ import type { TransactionFilters } from "@/lib/validation/transaction";
 
 export const PAGE_SIZE = 25;
 
-function buildWhere(
+export function buildTransactionWhere(
   userId: string,
   filters: TransactionFilters,
 ): Prisma.TransactionWhereInput {
@@ -34,7 +34,7 @@ export async function getTransactions(
   userId: string,
   filters: TransactionFilters,
 ) {
-  const where = buildWhere(userId, filters);
+  const where = buildTransactionWhere(userId, filters);
   const page = filters.page;
 
   const [rows, total, totals] = await Promise.all([

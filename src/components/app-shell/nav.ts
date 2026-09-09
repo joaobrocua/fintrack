@@ -1,5 +1,6 @@
 import {
   ArrowLeftRight,
+  FileText,
   LayoutDashboard,
   PiggyBank,
   Tags,
@@ -22,5 +23,6 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/categories", label: "Categorias", icon: Tags },
   { href: "/rules", label: "Regras", icon: Wand2 },
   { href: "/budgets", label: "Orçamentos", icon: PiggyBank },
+  { href: "/reports", label: "Relatórios", icon: FileText },
   { href: "/import", label: "Importar CSV", icon: Upload },
 ];
