@@ -24,6 +24,20 @@ describe("toCsv", () => {
   it("prepends a UTF-8 BOM", () => {
     expect(toCsv([], cols).startsWith("﻿")).toBe(true);
   });
+
+  it("defuses formula-injection cells but leaves amounts alone", () => {
+    const out = toCsv(
+      [
+        { a: "=SUM(A1:A9)", b: "-289,90" },
+        { a: "@cmd", b: "+55 11 99999" },
+      ],
+      cols,
+    ).replace("﻿", "");
+    expect(out).toContain("'=SUM(A1:A9)");
+    expect(out).toContain("'@cmd");
+    expect(out).toContain("'+55 11 99999");
+    expect(out).toContain(";-289,90"); // real negative amount untouched
+  });
 });
 
 describe("centsToCsvAmount", () => {

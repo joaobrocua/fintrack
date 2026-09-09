@@ -51,3 +51,28 @@ Demo login: `demo@fintrack.app` / `demo12345`.
 - Put the URL in `README.md` (Live demo) and the GitHub repo's About.
 - New migrations ship automatically: commit `prisma/migrations/**`, push, Vercel
   runs `prisma migrate deploy` before building.
+
+## 5. Least-privilege database role (recommended)
+
+Neon's default connection string uses the branch **owner** role. For the app's
+runtime, create a role that can only read/write the app tables — migrations keep
+running as the owner via `DIRECT_URL`.
+
+Run once against the `production` branch (Neon SQL editor, connected as owner):
+
+```sql
+CREATE ROLE fintrack_app LOGIN PASSWORD 'a-strong-random-password';
+GRANT CONNECT ON DATABASE neondb TO fintrack_app;
+GRANT USAGE ON SCHEMA public TO fintrack_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO fintrack_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO fintrack_app;
+-- so it also covers tables added by future migrations:
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO fintrack_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT USAGE, SELECT ON SEQUENCES TO fintrack_app;
+```
+
+Then in Vercel, point **`DATABASE_URL`** (the pooled, runtime one) at
+`fintrack_app`, and keep **`DIRECT_URL`** (used only by `prisma migrate deploy`)
+as the owner.
