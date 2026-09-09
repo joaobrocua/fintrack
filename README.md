@@ -82,6 +82,20 @@ Modelo: `User` · `FinancialAccount` · `Category` · `Transaction` ·
 `CategoryRule` · `Budget` · `ImportBatch` + modelos do Auth.js.
 Ver [`prisma/schema.prisma`](prisma/schema.prisma).
 
+## Segurança
+
+- Front-end nunca fala com o banco: tudo passa por Server Actions / Route
+  Handlers, com validação Zod no servidor e Prisma (parametrizado).
+- Toda operação revalida a sessão e o **dono** do recurso (`requireUser` +
+  `findFirst({ where: { id, userId } })`).
+- Senhas com bcrypt (12 rounds); nunca chegam ao cliente.
+- Cabeçalhos: CSP (bloqueia toda origem externa), HSTS, `X-Frame-Options: DENY`,
+  `nosniff`, `Referrer-Policy`, `Permissions-Policy` — em `next.config.ts`.
+- Rate limiting em memória no login/cadastro e nas rotas de import/export
+  (`src/lib/rate-limit.ts`); log estruturado por tentativa de login falhada.
+- Export CSV neutraliza *formula injection*; `serverActions.bodySizeLimit` fixo.
+- Papel Postgres de menor privilégio para produção — ver `DEPLOY.md`.
+
 ## Deploy
 
 Ver [`DEPLOY.md`](DEPLOY.md) — Vercel + branch de produção no Neon; migrations

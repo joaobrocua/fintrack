@@ -2,6 +2,7 @@ import { requireUserId } from "@/lib/dal";
 import { centsToCsvAmount, toCsv } from "@/lib/csv-export";
 import { formatDate } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
+import { clientIpFrom, rateLimit } from "@/lib/rate-limit";
 import { transactionFilterSchema } from "@/lib/validation/transaction";
 import { buildTransactionWhere } from "@/server/queries/transactions";
 
@@ -12,6 +13,18 @@ const KIND_LABEL: Record<string, string> = {
 
 export async function GET(request: Request) {
   const userId = await requireUserId();
+
+  const gate = rateLimit(
+    `export:${clientIpFrom(request.headers)}`,
+    20,
+    60 * 1000,
+  );
+  if (!gate.ok) {
+    return new Response("Muitas exportações. Aguarde um instante.", {
+      status: 429,
+      headers: { "Retry-After": String(gate.retryAfterSeconds) },
+    });
+  }
 
   const url = new URL(request.url);
   const filters = transactionFilterSchema.parse(

@@ -1,11 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { z } from "zod";
 import { actionError, actionOk, type ActionResult } from "@/lib/action-result";
 import { requireUserId } from "@/lib/dal";
 import { transactionHash } from "@/lib/hash";
 import { prisma } from "@/lib/prisma";
+import { clientIpFrom, rateLimit } from "@/lib/rate-limit";
 import { categorize, type CategorizationRule } from "@/lib/rule-engine";
 import { commitImportSchema } from "@/lib/validation/import";
 
@@ -21,6 +23,15 @@ export async function commitImport(
   raw: z.input<typeof commitImportSchema>,
 ): Promise<ActionResult<CommitImportResult>> {
   const userId = await requireUserId();
+
+  const gate = rateLimit(
+    `import:${clientIpFrom(await headers())}`,
+    10,
+    60 * 1000,
+  );
+  if (!gate.ok) {
+    return actionError("Muitas importações seguidas. Aguarde um minuto.");
+  }
 
   const parsed = commitImportSchema.safeParse(raw);
   if (!parsed.success) {
