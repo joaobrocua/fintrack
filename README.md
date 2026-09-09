@@ -5,7 +5,7 @@
 SaaS de finanças pessoais: importe o extrato do banco em CSV, deixe as regras
 categorizarem os gastos e acompanhe tudo num dashboard com orçamentos mensais.
 
-**Demo:** _(adicionar URL após o deploy)_ · login `demo@fintrack.app` / `demo12345`
+**Demo:** <https://fintrack-ashen-two.vercel.app> · login `demo@fintrack.app` / `demo12345`
 
 > Projeto de portfólio full-stack. Foco em modelagem de dados, processamento de
 > arquivo, regra de negócio e visualização.
@@ -97,5 +97,5 @@ aplicadas automaticamente no build (`vercel-build`).
 - [x] M5 — Dashboard (KPIs, fluxo mensal, evolução de saldo, gastos por categoria)
 - [x] M6 — Orçamentos (limite mensal por categoria, progresso, alerta, copiar mês)
 - [x] M7 — Exportação CSV + relatório mensal imprimível (PDF via print)
-- [x] M8 — Seed + CI (GitHub Actions); deploy Vercel pendente (ver DEPLOY.md)
+- [x] M8 — Seed + CI (GitHub Actions) + deploy na Vercel + Neon
 - [x] M9 — Polish (loading/error boundaries, prefers-reduced-motion, skip link, OG metadata, mobile)
