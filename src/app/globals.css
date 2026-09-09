@@ -142,13 +142,17 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
-  /* High-contrast display serif: set it large, tracked in slightly, with
-     comfortable leading. Italics carry emphasis. */
+  /* Fraunces with softened terminals and the wonk alternates on, so it never
+     reads as the flat default cut. Optical size tracks the font size.
+     Italics carry emphasis. */
   .font-serif {
     font-family: var(--font-serif);
-    font-weight: 400;
-    letter-spacing: -0.018em;
-    line-height: 1.08;
+    font-optical-sizing: auto;
+    font-variation-settings:
+      "SOFT" 50,
+      "WONK" 1;
+    letter-spacing: -0.02em;
+    line-height: 1.09;
   }
   h1,
   h2,
