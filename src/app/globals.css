@@ -133,6 +133,10 @@
   * {
     border-color: var(--color-border);
   }
+  /* Nudge the whole UI up a notch — text and rem-based spacing scale together. */
+  html {
+    font-size: 106.25%;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

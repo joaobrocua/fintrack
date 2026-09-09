@@ -23,7 +23,7 @@ export function MonthlyFlowChart({ data }: { data: MonthlyFlowPoint[] }) {
     return <ChartEmpty message="Sem transações no período" />;
 
   return (
-    <ResponsiveContainer width="100%" height={240}>
+    <ResponsiveContainer width="100%" height={260}>
       <BarChart data={data} barGap={4} margin={{ left: 4, right: 4, top: 4 }}>
         <CartesianGrid
           vertical={false}
