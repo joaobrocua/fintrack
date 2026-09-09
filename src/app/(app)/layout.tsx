@@ -25,7 +25,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         <Link href="/dashboard" className="px-1">
           <Logo />
         </Link>
-        <p className="mt-9 px-1 font-serif text-[0.7rem] tracking-[0.18em] text-muted-foreground uppercase">
+        <p className="mt-9 px-1 text-[0.7rem] font-medium tracking-[0.16em] text-muted-foreground uppercase">
           Índice
         </p>
         <div className="mt-3">
