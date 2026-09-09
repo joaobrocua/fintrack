@@ -1,54 +1,42 @@
-import {
-  ArrowRight,
-  FileSpreadsheet,
-  PieChart,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  Wallet,
-} from "lucide-react";
+import type { CSSProperties } from "react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 
-const features = [
+const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+
+const capabilities = [
   {
-    icon: FileSpreadsheet,
-    title: "Importação de CSV",
-    description:
-      "Suba o extrato do banco. O mapeamento de colunas é flexível e transações duplicadas são ignoradas automaticamente.",
+    kicker: "Importação",
+    title: "O extrato entra em segundos",
+    body: "Suba o CSV do banco, confira o mapeamento das colunas e pronto. Transações repetidas são descartadas sozinhas.",
   },
   {
-    icon: Sparkles,
-    title: "Categorização automática",
-    description:
-      'Crie regras ("contém IFOOD → Alimentação") e cada importação já chega classificada.',
+    kicker: "Classificação",
+    title: "Regras que trabalham por você",
+    body: "Defina uma vez — “contém IFOOD → Alimentação” — e toda importação já chega organizada.",
   },
   {
-    icon: PieChart,
-    title: "Dashboard de verdade",
-    description:
-      "Gastos por categoria, receita x despesa por mês e evolução do saldo — com filtro por período e conta.",
+    kicker: "Leitura",
+    title: "Gráficos que você entende de relance",
+    body: "Receita contra despesa mês a mês, evolução do saldo e para onde o dinheiro está indo, com filtro por período.",
   },
   {
-    icon: Target,
-    title: "Orçamentos mensais",
-    description:
-      "Defina um limite por categoria e acompanhe o quanto já foi consumido, com alerta ao estourar.",
+    kicker: "Disciplina",
+    title: "Orçamento por categoria",
+    body: "Um limite mensal, uma barra de progresso e um aviso claro quando você passa dele.",
   },
   {
-    icon: Wallet,
-    title: "Múltiplas contas",
-    description:
-      "Conta corrente, poupança, cartão e dinheiro — cada uma com seu saldo e histórico.",
+    kicker: "Contas",
+    title: "Tudo num lugar só",
+    body: "Corrente, poupança, cartão e dinheiro — cada conta com seu saldo e seu histórico.",
   },
   {
-    icon: ShieldCheck,
-    title: "Seus dados isolados",
-    description:
-      "Autenticação própria e cada registro amarrado ao seu usuário. Ninguém mais enxerga.",
+    kicker: "Privacidade",
+    title: "Seus números são só seus",
+    body: "Login próprio e cada registro amarrado à sua conta. Ninguém mais enxerga.",
   },
 ];
 
@@ -56,28 +44,27 @@ const steps = [
   {
     n: "01",
     title: "Conecte suas contas",
-    description: "Cadastre as contas e carteiras que você quer acompanhar.",
+    body: "Cadastre o que você quer acompanhar.",
   },
   {
     n: "02",
     title: "Importe o extrato",
-    description:
-      "Exporte o CSV do seu banco e suba aqui — o resto é automático.",
+    body: "Exporte o CSV do banco e suba aqui.",
   },
   {
     n: "03",
-    title: "Entenda seus gastos",
-    description: "Abra o dashboard e veja para onde o dinheiro está indo.",
+    title: "Leia seus gastos",
+    body: "Abra o painel e veja o quadro completo.",
   },
 ];
 
 export default function LandingPage() {
   return (
     <div className="flex min-h-full flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4">
+      <header className="border-b">
+        <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-5">
           <Logo />
-          <nav className="flex items-center gap-2">
+          <nav className="flex items-center gap-1">
             <ThemeToggle />
             <Button asChild variant="ghost" size="sm">
               <Link href="/login">Entrar</Link>
@@ -91,82 +78,118 @@ export default function LandingPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-28">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-              <Sparkles className="size-3.5 text-primary" />
-              Feito para quem quer parar de adivinhar
-            </span>
-            <h1 className="mt-6 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-              Saiba para onde vai o seu dinheiro
-            </h1>
-            <p className="mt-4 text-lg text-pretty text-muted-foreground">
-              O FinTrack importa o extrato do seu banco, categoriza os gastos
-              sozinho e transforma tudo em gráficos que você entende em 10
-              segundos.
-            </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link href="/register">
-                  Começar agora <ArrowRight />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/login">Já tenho conta</Link>
-              </Button>
-            </div>
+        <section className="mx-auto w-full max-w-5xl px-5 pt-20 pb-16 sm:pt-28">
+          <p
+            className="reveal font-serif text-xs tracking-[0.22em] text-muted-foreground uppercase"
+            style={d(0)}
+          >
+            Controle financeiro pessoal
+          </p>
+          <h1
+            className="reveal mt-5 max-w-3xl font-serif text-[2.75rem] leading-[1.05] tracking-[-0.02em] text-balance sm:text-6xl"
+            style={d(70)}
+          >
+            Saiba, sem adivinhar, para onde{" "}
+            <span className="italic">vai o seu dinheiro</span>.
+          </h1>
+          <p
+            className="reveal mt-6 max-w-xl text-lg leading-relaxed text-pretty text-muted-foreground"
+            style={d(150)}
+          >
+            O FinTrack importa o extrato do seu banco, classifica os gastos
+            sozinho e transforma tudo num painel que se lê em dez segundos.
+          </p>
+          <div
+            className="reveal mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center"
+            style={d(230)}
+          >
+            <Button asChild size="lg">
+              <Link href="/register">
+                Começar agora <ArrowRight />
+              </Link>
+            </Button>
+            <Link
+              href="/login"
+              className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              Já tenho conta
+            </Link>
           </div>
+
+          {/* Editorial figure strip */}
+          <dl
+            className="reveal mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-lg border bg-border sm:grid-cols-3"
+            style={d(320)}
+          >
+            {[
+              ["10s", "para entender o mês"],
+              ["1 clique", "para importar o extrato"],
+              ["0", "planilha para manter"],
+            ].map(([figure, caption]) => (
+              <div key={caption} className="bg-card p-5">
+                <dt className="font-serif text-2xl tracking-tight">{figure}</dt>
+                <dd className="mt-1 text-sm text-muted-foreground">
+                  {caption}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
-        {/* Features */}
-        <section className="border-t bg-muted/30">
-          <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:py-20">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Tudo que um controle financeiro precisa ter
+        {/* Capabilities */}
+        <section className="border-t bg-secondary/40">
+          <div className="mx-auto w-full max-w-5xl px-5 py-16 sm:py-20">
+            <h2 className="font-serif text-2xl tracking-tight">
+              O que um controle financeiro precisa ter
             </h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map(({ icon: Icon, title, description }) => (
-                <Card key={title}>
-                  <CardContent className="p-6">
-                    <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-                      <Icon className="size-5" />
-                    </div>
-                    <h3 className="mt-4 font-medium">{title}</h3>
-                    <p className="mt-1.5 text-sm text-muted-foreground">
-                      {description}
-                    </p>
-                  </CardContent>
-                </Card>
+            <div className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {capabilities.map((c) => (
+                <div
+                  key={c.title}
+                  className="border-t border-foreground/15 pt-4"
+                >
+                  <p className="text-[0.7rem] tracking-[0.16em] text-primary uppercase">
+                    {c.kicker}
+                  </p>
+                  <h3 className="mt-2 font-serif text-lg leading-snug tracking-tight">
+                    {c.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {c.body}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         {/* How it works */}
-        <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:py-20">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Como funciona
-          </h2>
-          <div className="mt-8 grid gap-8 sm:grid-cols-3">
+        <section className="mx-auto w-full max-w-5xl px-5 py-16 sm:py-20">
+          <h2 className="font-serif text-2xl tracking-tight">Como funciona</h2>
+          <ol className="mt-10 grid gap-10 sm:grid-cols-3">
             {steps.map((step) => (
-              <div key={step.n}>
-                <span className="font-mono text-sm text-primary">{step.n}</span>
-                <h3 className="mt-2 font-medium">{step.title}</h3>
+              <li key={step.n} className="border-t border-foreground/15 pt-4">
+                <span className="font-serif text-3xl text-primary tabular-nums">
+                  {step.n}
+                </span>
+                <h3 className="mt-2 font-serif text-lg tracking-tight">
+                  {step.title}
+                </h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">
-                  {step.description}
+                  {step.body}
                 </p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </section>
 
         {/* CTA */}
         <section className="border-t">
-          <div className="mx-auto w-full max-w-6xl px-4 py-16 text-center sm:py-20">
-            <h2 className="text-2xl font-semibold tracking-tight">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-start gap-5 px-5 py-16 sm:flex-row sm:items-center sm:justify-between sm:py-20">
+            <h2 className="max-w-md font-serif text-2xl leading-snug tracking-tight">
               Pronto para ver seus números com clareza?
             </h2>
-            <Button asChild size="lg" className="mt-6">
+            <Button asChild size="lg">
               <Link href="/register">
                 Criar conta gratuita <ArrowRight />
               </Link>
@@ -176,7 +199,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="border-t">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row">
+        <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-2 px-5 py-6 text-sm text-muted-foreground sm:flex-row">
           <Logo className="text-muted-foreground" />
           <p>Projeto de portfólio · {new Date().getFullYear()}</p>
         </div>

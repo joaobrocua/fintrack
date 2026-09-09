@@ -5,7 +5,7 @@ export function Card({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "rounded-xl border bg-card text-card-foreground shadow-sm",
+        "rounded-lg border bg-card text-card-foreground",
         className,
       )}
       {...props}
@@ -25,7 +25,10 @@ export function CardHeader({ className, ...props }: ComponentProps<"div">) {
 export function CardTitle({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      className={cn("leading-none font-semibold tracking-tight", className)}
+      className={cn(
+        "font-serif text-lg leading-tight tracking-tight",
+        className,
+      )}
       {...props}
     />
   );

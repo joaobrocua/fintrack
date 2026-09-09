@@ -3,88 +3,88 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
-   Design tokens
+   Design tokens — "editorial financeiro": warm paper, ink, bottle-green ledger
+   accent, oxblood for losses. Restrained radii, hairline rules over cards.
    --------------------------------------------------------------------------- */
 :root {
-  --radius: 0.7rem;
+  --radius: 0.375rem;
 
-  --background: oklch(0.994 0.002 240);
-  --foreground: oklch(0.22 0.02 255);
+  --background: oklch(0.985 0.008 83);
+  --foreground: oklch(0.24 0.012 55);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.02 255);
+  --card: oklch(0.998 0.004 85);
+  --card-foreground: oklch(0.24 0.012 55);
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.02 255);
+  --popover: oklch(0.998 0.004 85);
+  --popover-foreground: oklch(0.24 0.012 55);
 
-  --primary: oklch(0.56 0.13 165);
-  --primary-foreground: oklch(0.99 0.01 165);
+  --primary: oklch(0.4 0.072 152);
+  --primary-foreground: oklch(0.97 0.014 130);
 
-  --secondary: oklch(0.96 0.006 240);
-  --secondary-foreground: oklch(0.28 0.02 255);
+  --secondary: oklch(0.955 0.01 80);
+  --secondary-foreground: oklch(0.3 0.012 55);
 
-  --muted: oklch(0.965 0.005 240);
-  --muted-foreground: oklch(0.52 0.02 255);
+  --muted: oklch(0.955 0.01 80);
+  --muted-foreground: oklch(0.47 0.014 58);
 
-  --accent: oklch(0.95 0.02 165);
-  --accent-foreground: oklch(0.3 0.05 165);
+  --accent: oklch(0.94 0.022 150);
+  --accent-foreground: oklch(0.34 0.06 152);
 
-  --destructive: oklch(0.58 0.22 20);
-  --destructive-foreground: oklch(0.99 0.01 20);
+  --destructive: oklch(0.47 0.145 27);
+  --destructive-foreground: oklch(0.97 0.01 30);
 
-  --success: oklch(0.6 0.15 155);
-  --warning: oklch(0.75 0.15 75);
+  --success: oklch(0.52 0.11 148);
+  --warning: oklch(0.66 0.11 68);
 
-  --border: oklch(0.92 0.006 240);
-  --input: oklch(0.9 0.007 240);
-  --ring: oklch(0.56 0.13 165);
+  --border: oklch(0.89 0.012 75);
+  --input: oklch(0.86 0.014 75);
+  --ring: oklch(0.4 0.072 152);
 
-  /* Categorical chart slots — validated (CVD + normal-vision) for the light surface. */
-  --chart-1: #2a78d6;
-  --chart-2: #eb6834;
-  --chart-3: #1baf7a;
-  --chart-4: #eda100;
-  --chart-5: #e87ba4;
+  /* Chart slots — chart-1 is the ledger green (single-hue area). */
+  --chart-1: oklch(0.45 0.08 152);
+  --chart-2: oklch(0.6 0.13 42);
+  --chart-3: oklch(0.68 0.11 78);
+  --chart-4: oklch(0.48 0.09 245);
+  --chart-5: oklch(0.5 0.11 350);
 }
 
 .dark {
-  --background: oklch(0.17 0.013 255);
-  --foreground: oklch(0.95 0.004 240);
+  --background: oklch(0.185 0.007 60);
+  --foreground: oklch(0.93 0.006 75);
 
-  --card: oklch(0.21 0.016 255);
-  --card-foreground: oklch(0.95 0.004 240);
+  --card: oklch(0.216 0.008 58);
+  --card-foreground: oklch(0.93 0.006 75);
 
-  --popover: oklch(0.21 0.016 255);
-  --popover-foreground: oklch(0.95 0.004 240);
+  --popover: oklch(0.216 0.008 58);
+  --popover-foreground: oklch(0.93 0.006 75);
 
-  --primary: oklch(0.7 0.14 165);
-  --primary-foreground: oklch(0.18 0.03 165);
+  --primary: oklch(0.66 0.09 152);
+  --primary-foreground: oklch(0.16 0.03 152);
 
-  --secondary: oklch(0.26 0.02 255);
-  --secondary-foreground: oklch(0.92 0.005 240);
+  --secondary: oklch(0.26 0.009 58);
+  --secondary-foreground: oklch(0.9 0.006 75);
 
-  --muted: oklch(0.25 0.018 255);
-  --muted-foreground: oklch(0.68 0.015 255);
+  --muted: oklch(0.25 0.008 58);
+  --muted-foreground: oklch(0.66 0.012 65);
 
-  --accent: oklch(0.3 0.04 165);
-  --accent-foreground: oklch(0.9 0.03 165);
+  --accent: oklch(0.3 0.032 150);
+  --accent-foreground: oklch(0.88 0.03 150);
 
-  --destructive: oklch(0.65 0.2 22);
-  --destructive-foreground: oklch(0.98 0.01 20);
+  --destructive: oklch(0.58 0.15 30);
+  --destructive-foreground: oklch(0.97 0.01 30);
 
-  --success: oklch(0.7 0.14 155);
-  --warning: oklch(0.8 0.14 75);
+  --success: oklch(0.68 0.1 148);
+  --warning: oklch(0.76 0.1 70);
 
-  --border: oklch(0.28 0.02 255);
-  --input: oklch(0.32 0.02 255);
-  --ring: oklch(0.7 0.14 165);
+  --border: oklch(0.29 0.01 58);
+  --input: oklch(0.33 0.011 58);
+  --ring: oklch(0.66 0.09 152);
 
-  /* Same hues, stepped for the dark surface. */
-  --chart-1: #3987e5;
-  --chart-2: #d95926;
-  --chart-3: #199e70;
-  --chart-4: #c98500;
-  --chart-5: #d55181;
+  --chart-1: oklch(0.62 0.09 152);
+  --chart-2: oklch(0.66 0.13 45);
+  --chart-3: oklch(0.74 0.1 80);
+  --chart-4: oklch(0.62 0.1 245);
+  --chart-5: oklch(0.62 0.11 350);
 }
 
 @theme inline {
@@ -116,12 +116,14 @@
   --color-chart-5: var(--chart-5);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --font-serif:
+    var(--font-newsreader), ui-serif, Georgia, "Times New Roman", serif;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 5px);
 }
 
 @layer base {
@@ -132,10 +134,63 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-feature-settings: "cv05" 1;
   }
-  /* Tabular figures for money everywhere. */
+  /* Serif display: tighter tracking, real italics for emphasis. */
+  .font-serif {
+    font-feature-settings:
+      "liga" 1,
+      "kern" 1;
+    letter-spacing: -0.011em;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+  /* Editorial section marker: a hairline that runs past a heading. */
+  .rule-under {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.75rem;
+  }
+}
+
+@layer utilities {
+  /* Entrance: a short rise + fade, staggered via --d. Runs once on mount. */
+  .reveal {
+    animation: reveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .reveal-fast {
+    animation: reveal 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  /* Card hover: a small lift + firmer shadow. */
+  .lift {
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease,
+      border-color 0.18s ease;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 2px oklch(0.24 0.012 55 / 0.06),
+      0 10px 24px -12px oklch(0.24 0.012 55 / 0.18);
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -148,21 +203,28 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  .reveal,
+  .reveal-fast {
+    animation: none;
+  }
 }
 
 @media print {
-  /* Print the monthly report on white, regardless of the app theme. */
   :root,
   :root[data-theme="dark"],
   :root:not([data-theme="light"]) {
     --background: #ffffff;
-    --foreground: #111111;
+    --foreground: #1a1a1a;
     --card: #ffffff;
-    --card-foreground: #111111;
+    --card-foreground: #1a1a1a;
     --muted-foreground: #555555;
     --border: #cccccc;
   }
   body {
     background: #fff;
+  }
+  .reveal,
+  .reveal-fast {
+    animation: none;
   }
 }

@@ -43,7 +43,7 @@ export function TableHead({ className, ...props }: ComponentProps<"th">) {
   return (
     <th
       className={cn(
-        "h-10 px-3 text-left align-middle text-xs font-medium",
+        "h-10 px-3 text-left align-middle text-[0.68rem] font-medium tracking-[0.1em] text-muted-foreground uppercase",
         className,
       )}
       {...props}
