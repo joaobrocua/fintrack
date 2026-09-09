@@ -97,5 +97,5 @@ aplicadas automaticamente no build (`vercel-build`).
 - [x] M5 — Dashboard (KPIs, fluxo mensal, evolução de saldo, gastos por categoria)
 - [x] M6 — Orçamentos (limite mensal por categoria, progresso, alerta, copiar mês)
 - [x] M7 — Exportação CSV + relatório mensal imprimível (PDF via print)
-- [ ] M8 — Testes, CI, deploy
-- [ ] M9 — Polish (empty/loading/error states, responsivo, acessibilidade)
+- [x] M8 — Seed + CI (GitHub Actions); deploy Vercel pendente (ver DEPLOY.md)
+- [x] M9 — Polish (loading/error boundaries, prefers-reduced-motion, skip link, OG metadata, mobile)

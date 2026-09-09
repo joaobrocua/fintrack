@@ -12,6 +12,12 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-full">
+      <a
+        href="#conteudo"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-sm focus:text-primary-foreground"
+      >
+        Pular para o conteúdo
+      </a>
       <aside
         data-chrome
         className="hidden w-64 shrink-0 flex-col border-r bg-card px-4 py-6 lg:flex print:hidden"
@@ -34,7 +40,10 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           <ThemeToggle />
           <UserMenu name={user.name} email={user.email} />
         </header>
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 print:p-0">
+        <main
+          id="conteudo"
+          className="flex-1 px-4 py-6 sm:px-6 lg:px-8 print:p-0"
+        >
           {children}
         </main>
       </div>

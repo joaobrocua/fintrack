@@ -14,13 +14,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const DESCRIPTION =
+  "Importe o extrato do banco, categorize gastos automaticamente e veja para onde vai o seu dinheiro.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(APP_URL),
   title: {
     default: "FinTrack — controle financeiro pessoal",
     template: "%s · FinTrack",
   },
-  description:
-    "Importe o extrato do banco, categorize gastos automaticamente e veja para onde vai o seu dinheiro.",
+  description: DESCRIPTION,
+  applicationName: "FinTrack",
+  openGraph: {
+    title: "FinTrack — controle financeiro pessoal",
+    description: DESCRIPTION,
+    url: APP_URL,
+    siteName: "FinTrack",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: { card: "summary", title: "FinTrack", description: DESCRIPTION },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
