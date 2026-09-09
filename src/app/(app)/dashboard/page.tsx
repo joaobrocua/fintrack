@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BalanceTrendChart } from "@/components/dashboard/balance-trend-chart";
+import { BudgetStatusCard } from "@/components/dashboard/budget-status-card";
 import { CategorySpendChart } from "@/components/dashboard/category-spend-chart";
 import { ChartCard } from "@/components/dashboard/chart-card";
 import { MonthlyFlowChart } from "@/components/dashboard/monthly-flow-chart";
@@ -106,6 +107,8 @@ export default async function DashboardPage({
         >
           <TopMerchants rows={data.topMerchants} />
         </ChartCard>
+
+        <BudgetStatusCard rows={data.budgetStatus} />
       </div>
     </div>
   );
