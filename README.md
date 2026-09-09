@@ -67,7 +67,7 @@ Em construção — ver os milestones no histórico do projeto.
 - [x] M1 — Autenticação
 - [x] M2 — Contas + Transações (CRUD, saldo calculado, filtros, paginação)
 - [x] M3 — Categorias + Regras (motor de auto-categorização)
-- [ ] M4 — Importação CSV
+- [x] M4 — Importação CSV (mapeamento de colunas, dedup, auto-categoria, desfazer)
 - [ ] M5 — Dashboard
 - [ ] M6 — Orçamentos
 - [ ] M7 — Exportação / relatórios
