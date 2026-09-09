@@ -32,7 +32,7 @@ export function ChartCard({
 
 export function ChartEmpty({ message }: { message: string }) {
   return (
-    <div className="flex h-[220px] items-center justify-center text-sm text-muted-foreground">
+    <div className="flex h-[240px] items-center justify-center text-sm text-muted-foreground">
       {message}
     </div>
   );

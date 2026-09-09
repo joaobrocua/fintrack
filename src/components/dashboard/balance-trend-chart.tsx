@@ -28,7 +28,7 @@ export function BalanceTrendChart({ data }: { data: BalancePoint[] }) {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={240}>
+    <ResponsiveContainer width="100%" height={260}>
       <AreaChart data={points} margin={{ left: 4, right: 8, top: 4 }}>
         <defs>
           <linearGradient id="balanceFill" x1="0" y1="0" x2="0" y2="1">
