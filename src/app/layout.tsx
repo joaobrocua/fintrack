@@ -47,7 +47,11 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
   },
-  twitter: { card: "summary", title: "FinTrack", description: DESCRIPTION },
+  twitter: {
+    card: "summary_large_image",
+    title: "FinTrack",
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
