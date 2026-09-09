@@ -64,8 +64,8 @@ Ver [`prisma/schema.prisma`](prisma/schema.prisma).
 Em construção — ver os milestones no histórico do projeto.
 
 - [x] M0 — Scaffold (Next.js, Tailwind, Prisma, Neon, landing page)
-- [ ] M1 — Autenticação
-- [ ] M2 — Contas + Transações
+- [x] M1 — Autenticação
+- [x] M2 — Contas + Transações (CRUD, saldo calculado, filtros, paginação)
 - [ ] M3 — Categorias + Regras
 - [ ] M4 — Importação CSV
 - [ ] M5 — Dashboard
