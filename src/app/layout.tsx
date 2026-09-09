@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 const DESCRIPTION =
   "Importe o extrato do banco, categorize gastos automaticamente e veja para onde vai o seu dinheiro.";
 
