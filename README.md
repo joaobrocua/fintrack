@@ -66,7 +66,7 @@ Em construção — ver os milestones no histórico do projeto.
 - [x] M0 — Scaffold (Next.js, Tailwind, Prisma, Neon, landing page)
 - [x] M1 — Autenticação
 - [x] M2 — Contas + Transações (CRUD, saldo calculado, filtros, paginação)
-- [ ] M3 — Categorias + Regras
+- [x] M3 — Categorias + Regras (motor de auto-categorização)
 - [ ] M4 — Importação CSV
 - [ ] M5 — Dashboard
 - [ ] M6 — Orçamentos
