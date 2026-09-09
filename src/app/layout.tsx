@@ -1,27 +1,24 @@
 import type { Metadata } from "next";
-import {
-  Geist_Mono,
-  Instrument_Serif,
-  Schibsted_Grotesk,
-} from "next/font/google";
+import { Fraunces, Geist_Mono, Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-// Body / UI — an editorial grotesque with clean geometry.
-const sans = Schibsted_Grotesk({
+// Body / UI — a neutral workhorse, so the display face carries the character.
+const sans = Inter({
   variable: "--font-sans-family",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-// Display — a high-contrast serif for headlines and hero figures.
-const serif = Instrument_Serif({
+// Display — Fraunces, run at its display optical size with a little softness
+// and the "wonk" alternates on, so it never reads as the flat default cut.
+const serif = Fraunces({
   variable: "--font-serif-family",
   subsets: ["latin"],
-  weight: "400",
   style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
   display: "swap",
 });
 
