@@ -69,7 +69,7 @@ Em construção — ver os milestones no histórico do projeto.
 - [x] M3 — Categorias + Regras (motor de auto-categorização)
 - [x] M4 — Importação CSV (mapeamento de colunas, dedup, auto-categoria, desfazer)
 - [x] M5 — Dashboard (KPIs, fluxo mensal, evolução de saldo, gastos por categoria)
-- [ ] M6 — Orçamentos
+- [x] M6 — Orçamentos (limite mensal por categoria, progresso, alerta, copiar mês)
 - [ ] M7 — Exportação / relatórios
 - [ ] M8 — Testes, CI, deploy
 - [ ] M9 — Polish

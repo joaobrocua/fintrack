@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { Prisma } from "@prisma/client";
+import { currentMonthParam, monthParamToDate, monthRange } from "@/lib/month";
 import { prisma } from "@/lib/prisma";
 import type { ResolvedPeriod } from "@/lib/period";
 
@@ -22,6 +23,14 @@ export type BalancePoint = { date: string; balance: number };
 
 export type MerchantRow = { description: string; total: number; count: number };
 
+export type BudgetStatusRow = {
+  categoryId: string;
+  name: string;
+  color: string;
+  limitCents: number;
+  spentCents: number;
+};
+
 export type DashboardData = {
   hasData: boolean;
   totals: { income: number; expense: number; net: number };
@@ -30,6 +39,7 @@ export type DashboardData = {
   categorySpend: CategorySlice[];
   balanceTrend: BalancePoint[];
   topMerchants: MerchantRow[];
+  budgetStatus: BudgetStatusRow[];
 };
 
 const MONTH_LABEL = new Intl.DateTimeFormat("pt-BR", {
@@ -186,6 +196,39 @@ export async function getDashboardData(
     .sort((a, b) => b.total - a.total)
     .slice(0, 5);
 
+  // Current-month budget usage (independent of the selected period).
+  const thisMonthStart = monthParamToDate(currentMonthParam());
+  const { start: mStart, end: mEnd } = monthRange(thisMonthStart);
+  const [budgets, monthSpend] = await Promise.all([
+    prisma.budget.findMany({
+      where: { userId, month: thisMonthStart },
+      include: { category: { select: { name: true, color: true } } },
+    }),
+    prisma.transaction.groupBy({
+      by: ["categoryId"],
+      where: {
+        userId,
+        kind: "EXPENSE",
+        categoryId: { not: null },
+        date: { gte: mStart, lte: mEnd },
+      },
+      _sum: { amountCents: true },
+    }),
+  ]);
+  const monthSpendByCat = new Map(
+    monthSpend.map((s) => [s.categoryId, s._sum.amountCents ?? 0]),
+  );
+  const budgetStatus: BudgetStatusRow[] = budgets
+    .map((b) => ({
+      categoryId: b.categoryId,
+      name: b.category.name,
+      color: b.category.color,
+      limitCents: b.limitCents,
+      spentCents: monthSpendByCat.get(b.categoryId) ?? 0,
+    }))
+    .sort((a, b) => b.spentCents / b.limitCents - a.spentCents / a.limitCents)
+    .slice(0, 5);
+
   return {
     hasData: totalCount > 0,
     totals: { income, expense, net: income - expense },
@@ -194,5 +237,6 @@ export async function getDashboardData(
     categorySpend,
     balanceTrend,
     topMerchants,
+    budgetStatus,
   };
 }
