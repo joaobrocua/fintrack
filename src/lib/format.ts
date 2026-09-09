@@ -4,19 +4,9 @@ const dateFmt = new Intl.DateTimeFormat("pt-BR", {
   year: "numeric",
 });
 
-const monthFmt = new Intl.DateTimeFormat("pt-BR", {
-  month: "long",
-  year: "numeric",
-});
-
 /** "09/02/2026" */
 export function formatDate(date: Date | string): string {
   return dateFmt.format(typeof date === "string" ? new Date(date) : date);
-}
-
-/** "fevereiro de 2026" */
-export function formatMonth(date: Date | string): string {
-  return monthFmt.format(typeof date === "string" ? new Date(date) : date);
 }
 
 /** yyyy-mm-dd for <input type="date"> */
